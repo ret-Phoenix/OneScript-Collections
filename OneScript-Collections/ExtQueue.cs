@@ -42,12 +42,13 @@ namespace OneScript_Collections
         /// <param name="data"></param>
         public ExtQueue(ArrayImpl data)
         {
-            IValue[] ar = new IValue[data.Count()];
-            foreach (var itm in data)
-            {
-                ar[ar.Count() - 1] = itm;
-            }
-            _queue = new Queue<IValue>(ar);
+            //IValue[] ar = new IValue[data.Count()];
+            //foreach (var itm in data)
+            //{
+            //    ar[ar.Count() - 1] = itm;
+            //}
+            //_queue = new Queue<IValue>(ar);
+            _queue = new Queue<IValue>(data);
         }
 
 
