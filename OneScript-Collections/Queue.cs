@@ -1,4 +1,7 @@
-﻿using ScriptEngine.HostedScript.Library;
+﻿// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using ScriptEngine.HostedScript.Library;
 using ScriptEngine.Machine;
 using ScriptEngine.Machine.Contexts;
 using System;
@@ -13,16 +16,16 @@ namespace OneScript_Collections
     /// 
     /// </summary>
     [ContextClass("Очередь", "Queue")]
-    public class ExtQueue : AutoContext<ExtQueue> , ICollectionContext, IEnumerable<IValue>
+    public class Queue : AutoContext<Queue> , ICollectionContext, IEnumerable<IValue>
     {
-        private Queue<IValue> _queue;
+        private System.Collections.Generic.Queue<IValue> _queue;
 
         /// <summary>
         /// 
         /// </summary>
-        public ExtQueue()
+        public Queue()
         {
-            _queue = new Queue<IValue>();
+            _queue = new System.Collections.Generic.Queue<IValue>();
         }
 
 
@@ -30,9 +33,9 @@ namespace OneScript_Collections
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public ExtQueue(int data)
+        public Queue(int data)
         {
-            _queue = new Queue<IValue>(data);
+            _queue = new System.Collections.Generic.Queue<IValue>(data);
         }
 
 
@@ -40,14 +43,9 @@ namespace OneScript_Collections
         /// 
         /// </summary>
         /// <param name="data"></param>
-        public ExtQueue(ArrayImpl data)
+        public Queue(ArrayImpl data)
         {
-            IValue[] ar = new IValue[data.Count()];
-            foreach (var itm in data)
-            {
-                ar[ar.Count() - 1] = itm;
-            }
-            _queue = new Queue<IValue>(ar);
+            _queue = new System.Collections.Generic.Queue<IValue>(data);
         }
 
 
@@ -59,7 +57,7 @@ namespace OneScript_Collections
         [ScriptConstructor]
         public static IRuntimeContextInstance Constructor()
         {
-            return new ExtQueue();
+            return new Queue();
         }
 
         /// <summary>
@@ -72,13 +70,13 @@ namespace OneScript_Collections
         {
             if (data.DataType == DataType.Number)
             {
-                return new ExtQueue((int)data.AsNumber());
+                return new Queue((int)data.AsNumber());
             }
             else if ((data.DataType == DataType.Object) && (data.GetType() == (new ArrayImpl()).GetType()))
             {
-                return new ExtQueue((ArrayImpl)data);
+                return new Queue((ArrayImpl)data);
             }
-            return new ExtQueue();
+            return new Queue();
         }
 
         /// <summary>
@@ -97,7 +95,6 @@ namespace OneScript_Collections
         {
             foreach (var item in _queue)
             {
-                //yield return new KeyAndValueImpl(ValueFactory.Create(item.Key), item.Value);
                 yield return item;
             }
         }
@@ -124,23 +121,13 @@ namespace OneScript_Collections
 
 
         /// <summary>
-        /// 
+        /// Получает число элементов, содержащихся в интерфейсе Очереди
         /// </summary>
         /// <returns></returns>
+        [ContextMethod("Количество", "Count")]
         public int Count()
         {
             return _queue.Count;
-        }
-
-
-        /// <summary>
-        /// Получает число элементов, содержащихся в интерфейсе Очереди
-        /// </summary>
-        [ContextProperty("Количество", "Count")]
-        public int CountData
-        {
-            get { return _queue.Count; }
-
         }
 
         /// <summary>
@@ -172,10 +159,10 @@ namespace OneScript_Collections
         public void CopyTo(ArrayImpl inArray, int startIndex)
         {
             throw new Exception();
-            //int newSize = inArray.Count() + (_queue.Count-startIndex);
+            //int newSize = inArray.Count() + (_stack.Count-startIndex);
             ////Console.WriteLine("newSize:" + newSize);
             //IValue[] internalArray = new IValue[newSize];
-            //_queue.CopyTo(internalArray, startIndex);
+            //_stack.CopyTo(internalArray, startIndex);
 
             //int cnt = internalArray.Count();
             ////Console.WriteLine("s3");
@@ -189,7 +176,7 @@ namespace OneScript_Collections
         /// <summary>
         /// Удаляет объект из начала очереди и возвращает его.
         /// </summary>
-        [ContextMethod("УбратьИзОчереди", "Dequeue")]
+        [ContextMethod("ВзятьИзОчереди", "Dequeue")]
         public IValue Dequeue()
         {
             return _queue.Dequeue();
@@ -213,13 +200,13 @@ namespace OneScript_Collections
         //[ContextMethod("Равен", "Equals ")]
         //public bool isEquals(IValue val)
         //{
-        //    return _queue.Equals(val);
+        //    return _stack.Equals(val);
         //}
 
         //[ContextMethod("ОсвободитьРесурсы", "Finalize ")]
         //public void Finalize()
         //{
-        //    _queue.Finalize();
+        //    _stack.Finalize();
         //}
 
         /// <summary>
